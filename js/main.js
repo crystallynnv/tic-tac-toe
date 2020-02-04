@@ -62,7 +62,14 @@ function render() {
     board.forEach(function(turn, index) {
     squares[index].textContent = turn;
     });
-    messages.textContent = win === 'T' ? `That's a tie!` : win ? `${win} wins the game!` : `It's ${turn}'s turn!`;
+    if (win === 'X' || win === 'O') {
+        messages.textContent = `${win} wins the game!`
+    } else if (win === 'T') {
+        messages.textContent = `That's a tie!`
+    } else {
+        messages.textContent = `It's ${turn}'s turn!`
     };
+};
+    
 
 init();
