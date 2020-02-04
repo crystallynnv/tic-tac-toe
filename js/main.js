@@ -1,97 +1,68 @@
-/*------Constants------*/
-const colors = {
-    null: 'white',
-    '1': 'red',
-    '-1': 'green',
-}
+const winningCombos = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6], 
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+    ];
 
-const winCombo = [
-    ['#sq0','#sq1','#sq2'],
-    ['#sq3','#sq4','#sq5'],
-    ['#sq6','#sq7','#sq8'],
-    ['#sq0','#sq3','#sq6'],
-    ['#sq1','#sq4','#sq7'],
-    ['#sq2','#sq5','#sq8'],
-    ['#sq0','#sq4','#sq8'],
-    ['#sq2','#sq4','#sq6']
-];
+/*----- app's state (variables) -----*/
 
-/*------Variables (state)------*/
-//things we need to track
-let board = [];
-let turn;
-let clickedSquares;
-let winner;
+let board;
+let turn = 'X';
+let win;
 
+/*----- cached element references -----*/
 
-/*------Cached Element References------*/
+const squares = Array.from(document.querySelectorAll('#board div'));
 
-// game status?
-const sqEl = document.querySelectorAll('.sq');
+/*----- event listeners -----*/
+document.getElementById('board').addEventListener('click', handleTurn);
 const messages = document.querySelector('h2');
-
-/*------Event Listeners------*/
-// This is where you should put the event listener
-// for a mouse-click
-const squares = Array.from(document.querySelectorAll('.sq'));
+document.getElementById('reset').addEventListener('click', init);
 
 
-function logMapElements(value, key, map) {
-    console.log(`[${key}] = ${value}`);
-}
+/*----- functions -----*/
 
-new Map([['#sq0', 0], 
-        ['#sq1', 1],
-        ['#sq2', 2],
-        ['#sq3', 3],
-        ['#sq4', 4],
-        ['#sq5', 5],
-        ['#sq6', 6],
-        ['#sq7', 7],
-        ['#sq8', 8]]).forEach(logMapElements);
-/*------Functions------*/
-// Some functions you might choose to use:
-// Initialization function:
-// Where you set your initial state, setting up 
-// what the board will look like upon loading
+function getWinner() {
+    let winner = null;
+    winningCombos.forEach(function(combo, index) {
+        if (board[combo[0]] === board[combo[1]] && board[combo[0]] === board[combo[2]]) winner = board[combo[0]];
+        });
+        return winner ? winner : board.includes('') ? null : 'T';
+};
+
+function handleTurn() {
+    let idx = squares.findIndex(function(square) {
+        return square === event.target;
+    });
+    board[idx] = turn;
+    if (turn === 'X') {
+        turn = 'O' 
+        } else {
+        turn = 'X' 
+        };
+    win = getWinner();
+    render();
+};
 
 function init() {
     board = [
-        " "," "," ",
-        " "," "," ",
-        " "," "," "
+    '', '', '',
+    '', '', '',
+    '', '', ''
     ];
-    turn = {
-        '1' : 'X',
-        '-1' : 'O'
-    },
-    winner = null;
-    // render();
+    render();
 };
 
-init();
-
-// On-Click function:
-// Set up what happens when one of the elements is clicked
-
-
-
-
-
-// Check winner function:
-// Checks the current state of the board for
-// a winner and changes the state of the winner
-// variable if so
-
-
-// Render function:
-// Displays the current state of the board
-// on the page, updating the elements to reflect
-// either X or O depending on whose turn it is
-
-function render () {
-    myMap.forEach(function(sqEl, index) {
-
+function render() {
+    board.forEach(function(turn, index) {
+    squares[index].textContent = turn;
     });
-}
+    messages.textContent = win === 'T' ? `That's a tie!` : win ? `${win} wins the game!` : `It's ${turn}'s turn!`;
+    };
 
+init();

@@ -12,20 +12,22 @@
 </head>
 <body>
     <h1>Tic-Tac-Toe</h1>
-    <h2 id="message"></h2>
+    <h2 id="message">It's X's turn!</h2>
 
-    <section class="board">
-        <div id="sq0" class="sq"> </div>
-        <div id="sq1" class="sq"> </div>
-        <div id="sq2" class="sq"></div>
-        <div id="sq3" class="sq"></div>
-        <div id="sq4" class="sq"></div>
-        <div id="sq5" class="sq"></div>
-        <div id="sq6" class="sq"></div>
-        <div id="sq7" class="sq"></div>
-        <div id="sq8" class="sq"></div>
-    </section> 
-   
-    <button id="reset">Reset Game</button>   
+    <div class="flex-container flex-column">
+        <div class="flex-container flex-wrap" id="board">
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        <div class="square"></div>
+        </div>
+        
+        <button id="reset">Reset</button>
+    </div>  
 </body>
 </html>
