@@ -1,4 +1,4 @@
-const winningCombos = [
+const winCombos = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -29,8 +29,9 @@ document.getElementById('reset').addEventListener('click', init);
 
 function getWinner() {
     let winner = null;
-    winningCombos.forEach(function(combo, index) {
-        if (board[combo[0]] && board[combo[0]] === board[combo[1]] && board[combo[0]] === board[combo[2]]) winner = board[combo[0]];
+    winCombos.forEach(function(combo, index) {
+        if (board[combo[0]] && board[combo[0]] === board[combo[1]] && board[combo[0]] === board[combo[2]]) 
+        winner = board[combo[0]];
         });
         return winner ? winner : board.includes('') ? null : 'T';
 };
@@ -56,6 +57,7 @@ function init() {
     '', '', '',
     '', '', ''
     ];
+    win = null;
     render();
 };
 
@@ -66,7 +68,7 @@ function render() {
     if (win === 'X' || win === 'O') {
         messages.textContent = `${win} wins the game!`
     } else if (win === 'T') {
-        messages.textContent = `That's a tie!`
+        messages.textContent = `It's a tie!`
     } else {
         messages.textContent = `It's ${turn}'s turn!`
     };
