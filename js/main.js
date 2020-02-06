@@ -1,7 +1,4 @@
-const players = {
-    '1': 'X',
-    '-1': 'O'
-};
+
 
 
 /*----- app's state (variables) -----*/
@@ -19,7 +16,6 @@ let turnCount = 0;
 document.querySelector('section.board').addEventListener('click', onClick);
 const messages = document.querySelector('h2');
 
-let squares = document.querySelectorAll('div')
 
 /*----- functions -----*/
 
@@ -36,9 +32,10 @@ function getWinner() {
         board[0] + board[4] + board[8] === -3 || board[2] + board[4] + board[6] === -3) {
             messages.textContent = `O wins the game!`
         };
-    if (turnCount === 8) {
-        messages.textContent = `It's a tie!`
-    };
+    if (turnCount === 9) {
+            messages.textContent = `It's a tie!`
+        };
+    
     render();
 
    
@@ -84,4 +81,5 @@ function render() {
     getWinner();
         turn *= -1;
         turnCount++;
+    
     };
