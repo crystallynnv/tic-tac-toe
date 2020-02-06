@@ -1,75 +1,87 @@
-const winCombos = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6], 
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6]
-    ];
+const players = {
+    '1': 'X',
+    '-1': 'O'
+};
+
 
 /*----- app's state (variables) -----*/
 
 let board;
-let turn = 'X';
-let win;
+let turn;
+let winner;
+let turnCount = 0;
 
 /*----- cached element references -----*/
 
-const squares = Array.from(document.querySelectorAll('#board div'));
+
 
 /*----- event listeners -----*/
-document.getElementById('board').addEventListener('click', handleTurn);
+document.querySelector('section.board').addEventListener('click', onClick);
 const messages = document.querySelector('h2');
-document.getElementById('reset').addEventListener('click', init);
 
+let squares = document.querySelectorAll('div')
 
 /*----- functions -----*/
 
 function getWinner() {
-    let winner = null;
-    winCombos.forEach(function(combo, index) {
-        if (board[combo[0]] && board[combo[0]] === board[combo[1]] && board[combo[0]] === board[combo[2]]) 
-        winner = board[combo[0]];
-        });
-        return winner ? winner : board.includes('') ? null : 'T';
-};
-
-function handleTurn() {
-    let idx = squares.findIndex(function(square) {
-        return square === event.target;
-    });
-    board[idx] = turn;
-    if (turn === 'X') {
-        turn = 'O' 
-        } else {
-        turn = 'X' 
+    if( board[0] + board[1] + board[2] === 3 || board[3] + board[4] + board[5] === 3 ||
+        board[6] + board[7] + board[8] === 3 || board[0] + board[3] + board[6] === 3 ||
+        board[1] + board[4] + board[7] === 3 || board[2] + board[5] + board[8] === 3 ||
+        board[0] + board[4] + board[8] === 3 || board[2] + board[4] + board[6] === 3) {
+            messages.textContent = `X wins the game!`
         };
-    win = getWinner();
+    if( board[0] + board[1] + board[2] === -3 || board[3] + board[4] + board[5] === -3 ||
+        board[6] + board[7] + board[8] === -3 || board[0] + board[3] + board[6] === -3 ||
+        board[1] + board[4] + board[7] === -3 || board[2] + board[5] + board[8] === -3 ||
+        board[0] + board[4] + board[8] === -3 || board[2] + board[4] + board[6] === -3) {
+            messages.textContent = `O wins the game!`
+        };
+    if (turnCount === 8) {
+        messages.textContent = `It's a tie!`
+    };
+    render();
+
+   
+       
+};
+        
+function onClick(event) {
+    let sqIndex = parseInt(event.target.id.replace('sq',''));
+    markBoard = document.getElementById(`sq${sqIndex}`);
+    if (markBoard.textContent === null) return;
+    if (board[sqIndex] === null) {
+        board[sqIndex] = turn;
+
+    }
     render();
 };
+
 init();
 
 function init() {
     board = [
-    '', '', '',
-    '', '', '',
-    '', '', ''
+        null, null, null,
+        null, null, null,
+        null, null, null,
     ];
-    win = null;
-    render();
+    turn = 1;
+    messages.textContent = `Good Luck! X goes first!`;
+    winner = null;
+    
 };
 
 function render() {
-    board.forEach(function(turn, index) {
-    squares[index].textContent = turn;
-    });
-    if (win === 'X' || win === 'O') {
-        messages.textContent = `${win} wins the game!`
-    } else if (win === 'T') {
-        messages.textContent = `It's a tie!`
+   
+    if (markBoard.textContent === 'X' || markBoard.textContent === "O") 
+    return;
+    if(turn === 1) {
+            markBoard.textContent = "X";
+            messages.textContent = `It's O's turn!`;
     } else {
-        messages.textContent = `It's ${turn}'s turn!`
+            markBoard.textContent = "O";
+            messages.textContent = `It's X's turn!`;
     };
-};
+    getWinner();
+        turn *= -1;
+        turnCount++;
+    };
