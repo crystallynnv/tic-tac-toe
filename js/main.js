@@ -7,6 +7,7 @@ let board;
 let turn;
 let winner;
 let turnCount = 0;
+let win = false;
 
 /*----- cached element references -----*/
 
@@ -24,7 +25,8 @@ function getWinner() {
         board[6] + board[7] + board[8] === 3 || board[0] + board[3] + board[6] === 3 ||
         board[1] + board[4] + board[7] === 3 || board[2] + board[5] + board[8] === 3 ||
         board[0] + board[4] + board[8] === 3 || board[2] + board[4] + board[6] === 3) {
-            messages.textContent = `X wins the game!`
+            messages.textContent = `X wins the game!`;
+            win = true;
         };
     if( board[0] + board[1] + board[2] === -3 || board[3] + board[4] + board[5] === -3 ||
         board[6] + board[7] + board[8] === -3 || board[0] + board[3] + board[6] === -3 ||
@@ -32,8 +34,9 @@ function getWinner() {
         board[0] + board[4] + board[8] === -3 || board[2] + board[4] + board[6] === -3) {
             messages.textContent = `O wins the game!`
         };
-    if (turnCount === 9) {
-            messages.textContent = `It's a tie!`
+    if (turnCount === 8 && win === false) {
+            messages.textContent = `It's a tie!`;
+            win = true;
         };
     
     render();
